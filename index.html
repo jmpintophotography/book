@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="A Casa Fora de Casa, um livro de fotografia analógica de Miguel Pinto.">
+  <meta name="theme-color" content="#e6e7e8">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="A Casa Fora de Casa — Miguel Pinto">
+  <meta property="og:description" content="Um livro de fotografia analógica sobre viagem, família e os lugares encontrados fora de casa.">
+  <link rel="icon" href="data:,">
+  <title>A Casa Fora de Casa — Miguel Pinto</title>
+
+  <style>
+    :root {
+      --background: #e6e7e8;
+      --page: #fdfdfb;
+      --ink: #171817;
+      --muted: #696d6e;
+      --line: rgba(18, 20, 20, 0.14);
+      --cover: #242522;
+      --cover-ink: #f4f3ed;
+      --back-cover: #cbc8c1;
+      --chapter: #e1e5e4;
+      --chapter-mark: #aeb5b4;
+      --accent: #8f3c38;
+      --shadow: rgba(20, 22, 22, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--background);
+      color: var(--ink);
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    img {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .site-shell {
+      width: 100%;
+      min-height: 100svh;
+      display: grid;
+      grid-template-rows: 56px minmax(0, 1fr) 68px;
+    }
+
+    .site-header {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-width: 0;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 247, 247, 0.86);
+    }
+
+    .site-title,
+    .site-author {
+      margin: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .site-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 400;
+    }
+
+    .site-author {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .reader {
+      min-height: 0;
+      position: relative;
+    }
+
+    .stage {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 14px 24px;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .book {
+      display: grid;
+      min-width: 0;
+      max-height: 100%;
+      isolation: isolate;
+      animation: page-in 180ms ease-out both;
+    }
+
+    .book.spread {
+      width: min(92vw, calc((100svh - 164px) * 2), 1280px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      aspect-ratio: 2 / 1;
+      box-shadow: 0 18px 42px var(--shadow);
+    }
+
+    .book.single {
+      width: min(88vw, calc(100svh - 164px), 660px);
+      grid-template-columns: minmax(0, 1fr);
+      aspect-ratio: 1 / 1;
+      box-shadow: 0 18px 42px var(--shadow);
+    }
+
+    .book-page {
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--page);
+    }
+
+    .book.spread .book-page.left {
+      border-right: 0;
+    }
+
+    .book.spread .book-page.right {
+      box-shadow: inset 18px 0 20px -26px rgba(0, 0, 0, 0.44);
+    }
+
+    .photo-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4.8% 4.8% 8.2%;
+    }
+
+    .photo-frame {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .page-number {
+      position: absolute;
+      bottom: 3.2%;
+      color: #85898a;
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .page-number.left {
+      left: 4.2%;
+    }
+
+    .page-number.right {
+      right: 4.2%;
+    }
+
+    .front-cover,
+    .back-cover,
+    .half-title,
+    .title-page,
+    .chapter-left,
+    .chapter-right,
+    .colophon {
+      padding: 7%;
+    }
+
+    .front-cover {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 5%;
+      background: var(--cover);
+      color: var(--cover-ink);
+    }
+
+    .cover-heading h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 58px;
+      font-weight: 400;
+      line-height: 0.98;
+    }
+
+    .cover-heading h1 span {
+      display: block;
+    }
+
+    .cover-heading p {
+      margin: 14px 0 0;
+      color: rgba(244, 243, 237, 0.78);
+      font-size: 14px;
+    }
+
+    .front-cover .cover-photo {
+      width: 52%;
+      height: 100%;
+      min-height: 0;
+      justify-self: end;
+      object-fit: contain;
+      object-position: right bottom;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .back-cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 5%;
+      background: var(--back-cover);
+    }
+
+    .back-cover > p {
+      max-width: 78%;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.48;
+    }
+
+    .back-cover .cover-photo {
+      width: 40%;
+      max-height: 40%;
+      object-fit: contain;
+      object-position: left center;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .back-cover footer {
+      color: #535654;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .guard-page {
+      background: #c9ccca;
+    }
+
+    .half-title,
+    .title-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .half-title h1,
+    .title-page h1,
+    .chapter-right h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
+    .half-title h1 {
+      font-size: 38px;
+    }
+
+    .title-page h1 {
+      font-size: 48px;
+      line-height: 1.05;
+    }
+
+    .title-page p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chapter-left,
+    .chapter-right {
+      display: flex;
+      background: var(--chapter);
+    }
+
+    .chapter-left {
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    .chapter-left span {
+      color: var(--chapter-mark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 142px;
+      line-height: 0.78;
+    }
+
+    .chapter-right {
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .chapter-right h2 {
+      max-width: 92%;
+      font-size: 45px;
+      line-height: 1.04;
+    }
+
+    .chapter-right p {
+      max-width: 84%;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .blank-page {
+      background: var(--page);
+    }
+
+    .colophon {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    .colophon p {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .colophon p:first-child {
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+    }
+
+    .reader-controls {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 48px minmax(120px, 220px) 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 8px 20px 12px;
+      border-top: 1px solid var(--line);
+      background: rgba(246, 247, 247, 0.9);
+    }
+
+    .nav-button {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .nav-button:hover {
+      background: rgba(23, 24, 23, 0.08);
+    }
+
+    .nav-button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .nav-button:disabled {
+      color: #a9acad;
+      cursor: default;
+      opacity: 0.48;
+    }
+
+    .nav-button:disabled:hover {
+      background: transparent;
+    }
+
+    .reader-position {
+      min-width: 0;
+      text-align: center;
+    }
+
+    .reader-position output {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 2px;
+      overflow: hidden;
+      background: #c8cbcc;
+    }
+
+    .progress-track span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 180ms ease-out;
+    }
+
+    .noscript {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--background);
+      text-align: center;
+    }
+
+    @keyframes page-in {
+      from {
+        opacity: 0;
+        transform: translateX(var(--entry-x, 0));
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .cover-heading h1 {
+        font-size: 44px;
+      }
+
+      .half-title h1 {
+        font-size: 30px;
+      }
+
+      .title-page h1 {
+        font-size: 38px;
+      }
+
+      .chapter-left span {
+        font-size: 104px;
+      }
+
+      .chapter-right h2 {
+        font-size: 34px;
+      }
+
+      .chapter-right p {
+        font-size: 13px;
+      }
+
+      .back-cover > p {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 720px) and (orientation: portrait) {
+      .site-shell {
+        grid-template-rows: 50px minmax(0, 1fr) 64px;
+      }
+
+      .site-header {
+        gap: 12px;
+        padding: 0 16px;
+      }
+
+      .site-title {
+        font-size: 16px;
+      }
+
+      .site-author {
+        font-size: 11px;
+      }
+
+      .stage {
+        padding: 12px 14px;
+      }
+
+      .book.single {
+        width: min(92vw, calc(100svh - 146px));
+      }
+
+      .front-cover,
+      .back-cover,
+      .half-title,
+      .title-page,
+      .chapter-left,
+      .chapter-right,
+      .colophon {
+        padding: 7.5%;
+      }
+
+      .cover-heading h1 {
+        font-size: 36px;
+      }
+
+      .cover-heading p {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+
+      .half-title h1 {
+        font-size: 28px;
+      }
+
+      .title-page h1 {
+        font-size: 34px;
+      }
+
+      .chapter-left span {
+        font-size: 94px;
+      }
+
+      .chapter-right h2 {
+        font-size: 30px;
+      }
+
+      .reader-controls {
+        grid-template-columns: 48px minmax(96px, 160px) 48px;
+        gap: 8px;
+        padding: 6px 12px 10px;
+      }
+    }
+
+    @media (max-height: 520px) {
+      .site-shell {
+        grid-template-rows: 44px minmax(0, 1fr) 54px;
+      }
+
+      .site-header {
+        padding: 0 16px;
+      }
+
+      .site-title {
+        font-size: 15px;
+      }
+
+      .stage {
+        padding: 8px 18px;
+      }
+
+      .book.spread {
+        width: min(92vw, calc((100svh - 116px) * 2));
+      }
+
+      .book.single {
+        width: min(86vw, calc(100svh - 116px));
+      }
+
+      .cover-heading h1 {
+        font-size: 28px;
+      }
+
+      .cover-heading p,
+      .back-cover footer {
+        font-size: 10px;
+      }
+
+      .back-cover > p {
+        font-size: 11px;
+      }
+
+      .half-title h1 {
+        font-size: 24px;
+      }
+
+      .title-page h1 {
+        font-size: 28px;
+      }
+
+      .chapter-left span {
+        font-size: 72px;
+      }
+
+      .chapter-right h2 {
+        font-size: 25px;
+      }
+
+      .chapter-right p {
+        margin-top: 9px;
+        font-size: 10px;
+      }
+
+      .reader-controls {
+        grid-template-columns: 42px minmax(100px, 180px) 42px;
+        padding: 4px 16px;
+      }
+
+      .nav-button {
+        width: 42px;
+        height: 42px;
+      }
+
+      .reader-position output {
+        margin-bottom: 6px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .book {
+        animation: none;
+      }
+
+      .progress-track span {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <p class="site-title">A Casa Fora de Casa</p>
+      <p class="site-author">Miguel Pinto</p>
+    </header>
+
+    <main class="reader">
+      <section class="stage" id="stage" aria-label="Livro A Casa Fora de Casa">
+        <div class="book single" id="book" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <nav class="reader-controls" aria-label="Navegação do livro">
+      <button class="nav-button" id="previous" type="button" aria-label="Página anterior" title="Página anterior">←</button>
+      <div class="reader-position">
+        <output id="position" aria-live="polite">1 / 1</output>
+        <div class="progress-track" aria-hidden="true"><span id="progress"></span></div>
+      </div>
+      <button class="nav-button" id="next" type="button" aria-label="Página seguinte" title="Página seguinte">→</button>
+    </nav>
+  </div>
+
+  <noscript><div class="noscript">É necessário ativar JavaScript para folhear este livro.</div></noscript>
+
+  <script>
+    const chapters = [
+      { roman: "I", title: "Portas, Escadas, Sinais", subtitle: "o mundo antes de se abrir", start: 1, end: 18 },
+      { roman: "II", title: "A Cidade Espera", subtitle: "figuras paradas no meio do movimento", start: 19, end: 34 },
+      { roman: "III", title: "Água, Margem, Trabalho", subtitle: "a vida junto ao limite", start: 35, end: 52 },
+      { roman: "IV", title: "Mãos, Mesas, Ofícios", subtitle: "mercado, cozinha e sobrevivência", start: 53, end: 68 },
+      { roman: "V", title: "Casa e Memória", subtitle: "o lado quieto da viagem", start: 69, end: 74 },
+      { roman: "VI", title: "Infância em Passagem", subtitle: "crescer entre luz, sombra e mar", start: 75, end: 98 },
+      { roman: "VII", title: "Voltar Sem Fechar", subtitle: "o regresso como eco", start: 99, end: 100 }
+    ];
+
+    const pad = (number) => String(number).padStart(3, "0");
+    const photoSource = (number) => `assets/fotos/${pad(number)}.jpg`;
+    const pages = [
+      { id: "capa", type: "front-cover" },
+      { id: "guarda-inicial", type: "guard" },
+      { id: "meia-folha-de-rosto", type: "half-title" },
+      { id: "folha-de-rosto", type: "title-page" },
+      { id: "pagina-em-branco-inicial", type: "blank" }
+    ];
+
+    chapters.forEach((chapter) => {
+      pages.push(
+        { id: `capitulo-${chapter.roman.toLowerCase()}-esquerda`, type: "chapter-left", chapter },
+        { id: `capitulo-${chapter.roman.toLowerCase()}-direita`, type: "chapter-right", chapter }
+      );
+
+      for (let number = chapter.start; number <= chapter.end; number += 1) {
+        pages.push({
+          id: `pagina-${pad(number)}`,
+          type: "photo",
+          number,
+          src: photoSource(number),
+          side: number % 2 === 1 ? "left" : "right"
+        });
+      }
+    });
+
+    pages.push(
+      { id: "pagina-em-branco-final", type: "blank" },
+      { id: "colofao", type: "colophon" },
+      { id: "guarda-final-esquerda", type: "guard" },
+      { id: "guarda-final-direita", type: "guard" },
+      { id: "contracapa", type: "back-cover" }
+    );
+
+    const book = document.querySelector("#book");
+    const stage = document.querySelector("#stage");
+    const previousButton = document.querySelector("#previous");
+    const nextButton = document.querySelector("#next");
+    const position = document.querySelector("#position");
+    const progress = document.querySelector("#progress");
+    const mobileQuery = window.matchMedia("(max-width: 720px) and (orientation: portrait)");
+    const lastIndex = pages.length - 1;
+    let currentIndex = 0;
+    let direction = 1;
+    let pointerStart = null;
+    let ignoreNextClick = false;
+
+    function isMobileView() {
+      return mobileQuery.matches;
+    }
+
+    function normalizeIndex(index) {
+      const bounded = Math.max(0, Math.min(lastIndex, index));
+      if (isMobileView() || bounded === 0 || bounded === lastIndex) return bounded;
+      return 1 + Math.floor((bounded - 1) / 2) * 2;
+    }
+
+    function displayedIndices() {
+      if (isMobileView() || currentIndex === 0 || currentIndex === lastIndex) return [currentIndex];
+      return [currentIndex, Math.min(currentIndex + 1, lastIndex - 1)];
+    }
+
+    function appendText(parent, tagName, text, className) {
+      const element = document.createElement(tagName);
+      element.textContent = text;
+      if (className) element.className = className;
+      parent.appendChild(element);
+      return element;
+    }
+
+    function makeImage(src, alt, className) {
+      const image = document.createElement("img");
+      image.src = src;
+      image.alt = alt;
+      image.className = className || "";
+      image.decoding = "async";
+      image.draggable = false;
+      return image;
+    }
+
+    function renderPage(page, side) {
+      const article = document.createElement("article");
+      article.className = `book-page ${side}`;
+
+      if (page.type === "front-cover") {
+        article.classList.add("front-cover");
+        const heading = document.createElement("div");
+        heading.className = "cover-heading";
+        const title = document.createElement("h1");
+        ["A Casa", "Fora", "de Casa"].forEach((line) => appendText(title, "span", line));
+        heading.appendChild(title);
+        appendText(heading, "p", "Miguel Pinto");
+        article.append(heading, makeImage(photoSource(93), "Fotografia da capa", "cover-photo"));
+      }
+
+      if (page.type === "back-cover") {
+        article.classList.add("back-cover");
+        appendText(article, "p", "Um livro sobre viagem, família e pequenos lugares encontrados fora do sítio onde se vive. Fotografias analógicas feitas entre rua, água, casa e passagem.");
+        article.appendChild(makeImage(photoSource(100), "Fotografia da contracapa", "cover-photo"));
+        const footer = document.createElement("footer");
+        footer.append("Miguel Pinto", document.createElement("br"), "Fotografias analógicas");
+        article.appendChild(footer);
+      }
+
+      if (page.type === "guard") {
+        article.classList.add("guard-page");
+      }
+
+      if (page.type === "half-title") {
+        article.classList.add("half-title");
+        appendText(article, "h1", "A Casa Fora de Casa");
+      }
+
+      if (page.type === "title-page") {
+        article.classList.add("title-page");
+        const block = document.createElement("div");
+        appendText(block, "h1", "A Casa Fora de Casa");
+        appendText(block, "p", "Miguel Pinto");
+        article.appendChild(block);
+      }
+
+      if (page.type === "blank") {
+        article.classList.add("blank-page");
+      }
+
+      if (page.type === "chapter-left") {
+        article.classList.add("chapter-left");
+        appendText(article, "span", page.chapter.roman);
+      }
+
+      if (page.type === "chapter-right") {
+        article.classList.add("chapter-right");
+        const block = document.createElement("div");
+        appendText(block, "h2", page.chapter.title);
+        appendText(block, "p", page.chapter.subtitle);
+        article.appendChild(block);
+      }
+
+      if (page.type === "photo") {
+        article.classList.add("photo-page");
+        const figure = document.createElement("figure");
+        figure.className = "photo-frame";
+        figure.appendChild(makeImage(page.src, `Fotografia da página ${pad(page.number)}`));
+        article.appendChild(figure);
+        appendText(article, "span", pad(page.number), `page-number ${page.side}`);
+      }
+
+      if (page.type === "colophon") {
+        article.classList.add("colophon");
+        const block = document.createElement("div");
+        appendText(block, "p", "A Casa Fora de Casa");
+        appendText(block, "p", "Miguel Pinto");
+        appendText(block, "p", "Fotografias em película. Edição em preparação.");
+        article.appendChild(block);
+      }
+
+      return article;
+    }
+
+    function viewPosition() {
+      if (isMobileView()) return { current: currentIndex + 1, total: pages.length };
+      if (currentIndex === 0) return { current: 1, total: 63 };
+      if (currentIndex === lastIndex) return { current: 63, total: 63 };
+      return { current: 2 + Math.floor((currentIndex - 1) / 2), total: 63 };
+    }
+
+    function updateUrl() {
+      const page = pages[currentIndex];
+      if (!page) return;
+      window.history.replaceState(null, "", `#${page.id}`);
+    }
+
+    function preloadAround() {
+      const distance = isMobileView() ? 2 : 4;
+      for (let offset = -distance; offset <= distance; offset += 1) {
+        const page = pages[currentIndex + offset];
+        if (page && page.src) {
+          const image = new Image();
+          image.src = page.src;
+        }
+      }
+    }
+
+    function render() {
+      currentIndex = normalizeIndex(currentIndex);
+      const indices = displayedIndices();
+      book.replaceChildren();
+      book.className = `book ${indices.length === 1 ? "single" : "spread"}`;
+      book.style.setProperty("--entry-x", `${direction * 12}px`);
+
+      indices.forEach((index, displayIndex) => {
+        const side = indices.length === 1 ? "single-page" : displayIndex === 0 ? "left" : "right";
+        book.appendChild(renderPage(pages[index], side));
+      });
+
+      book.setAttribute("aria-label", indices.map((index) => pages[index].id.replace(/-/g, " ")).join(" e "));
+      const view = viewPosition();
+      position.textContent = `${view.current} / ${view.total}`;
+      progress.style.width = `${view.total === 1 ? 100 : ((view.current - 1) / (view.total - 1)) * 100}%`;
+      previousButton.disabled = currentIndex === 0;
+      nextButton.disabled = currentIndex === lastIndex;
+      updateUrl();
+      preloadAround();
+    }
+
+    function goNext() {
+      if (currentIndex === lastIndex) return;
+      direction = 1;
+      if (isMobileView()) currentIndex += 1;
+      else if (currentIndex === 0) currentIndex = 1;
+      else if (currentIndex >= lastIndex - 2) currentIndex = lastIndex;
+      else currentIndex += 2;
+      render();
+    }
+
+    function goPrevious() {
+      if (currentIndex === 0) return;
+      direction = -1;
+      if (isMobileView()) currentIndex -= 1;
+      else if (currentIndex === lastIndex) currentIndex = lastIndex - 2;
+      else if (currentIndex <= 1) currentIndex = 0;
+      else currentIndex -= 2;
+      render();
+    }
+
+    previousButton.addEventListener("click", goPrevious);
+    nextButton.addEventListener("click", goNext);
+
+    document.addEventListener("keydown", (event) => {
+      if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+        event.preventDefault();
+        goNext();
+      }
+      if (["ArrowLeft", "PageUp"].includes(event.key)) {
+        event.preventDefault();
+        goPrevious();
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        direction = -1;
+        currentIndex = 0;
+        render();
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        direction = 1;
+        currentIndex = lastIndex;
+        render();
+      }
+    });
+
+    stage.addEventListener("pointerdown", (event) => {
+      pointerStart = { x: event.clientX, y: event.clientY, time: Date.now() };
+    });
+
+    stage.addEventListener("pointerup", (event) => {
+      if (!pointerStart) return;
+      const deltaX = event.clientX - pointerStart.x;
+      const deltaY = event.clientY - pointerStart.y;
+      const elapsed = Date.now() - pointerStart.time;
+      pointerStart = null;
+
+      if (elapsed < 700 && Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+        ignoreNextClick = true;
+        if (deltaX < 0) goNext();
+        else goPrevious();
+      }
+    });
+
+    stage.addEventListener("pointercancel", () => {
+      pointerStart = null;
+    });
+
+    stage.addEventListener("click", (event) => {
+      if (ignoreNextClick) {
+        ignoreNextClick = false;
+        return;
+      }
+      if (event.detail === 0) return;
+      const bounds = stage.getBoundingClientRect();
+      if (event.clientX < bounds.left + bounds.width / 2) goPrevious();
+      else goNext();
+    });
+
+    mobileQuery.addEventListener("change", () => {
+      currentIndex = normalizeIndex(currentIndex);
+      direction = 0;
+      render();
+    });
+
+    const requestedId = decodeURIComponent(window.location.hash.slice(1));
+    const requestedIndex = pages.findIndex((page) => page.id === requestedId);
+    if (requestedIndex >= 0) currentIndex = requestedIndex;
+    render();
+  </script>
+</body>
+</html>
